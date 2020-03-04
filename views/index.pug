@@ -7,5 +7,8 @@ block layout-content
 
     h1(style='color:blue;') Search for headlines down below!
     p Try searching for anything you like
-    form
-    input(type='text' name='search' placeholder='Enter specific word(s) here')
+
+    form(action='/search/' method='post')
+    label(for='headline_search_box') Search headline: 
+    input#headline_search_box(type='text' name='queryString' value='Enter headline here')
+    input(type='submit' value='OK')
