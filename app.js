@@ -44,7 +44,7 @@ app.get('/search', function (req, res, next) {
 app.post('/search/', function (req, res, next) {
   var queryString;
   queryString = req.body.queryString;
-  res.send(queryString);
+  res.redirect('/search');
   console.log("STRING" + queryString);
   makeArticleRequestForQuery(queryString);
 })
@@ -87,7 +87,7 @@ function makeArticleRequestForQuery(queryString) {
   var request = require('request');
   request({
     headers: {
-      'x-api-key': "59cbaf20e3e06d3565778e7b39ea4ee200cd4785bdcf1c69154f84d7",
+      'x-api-key': process.env.FT_API_KEY,
     },
     url: "http://api.ft.com/content/search/v1?",
     json: {
