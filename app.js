@@ -2,6 +2,9 @@ var express = require("express");
 var app = express();
 var path = require("path");
 var router = express.Router();
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+
 require("dotenv").config();
 var bodyParser = require("body-parser");
 
@@ -16,22 +19,34 @@ app.get("/", function (req, res) {
 
 
 app.get('/search', function (req, res, next) {
-  res.render("searches", { title: "Searches" });
-  var queryString;
-  queryString = req.body.queryString;
-  console.log(queryString);
-  var articles = makeArticleRequestForQuery(queryString);
-  console.log(articles);
-  module.exports = articles
+  var resultsArray = []
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb");
+    dbo.collection("articles").find({}).toArray(function (err, result) {
+      if (err) {
+        throw err;
+      } else if (result.length) {
+        resultsArray = result
+        console.log(resultsArray)
+        res.render('searches', {
+          'articlesArray': result,
+        });
+      } else {
+        res.send('No documents found');
+      }
+      db.close();
+    });
+  });
 });
+
 
 app.post('/search/', function (req, res, next) {
   var queryString;
   queryString = req.body.queryString;
   res.send(queryString);
   console.log("STRING" + queryString);
-  // console.log(req.body);
-  var articles = makeArticleRequestForQuery(queryString);
+  makeArticleRequestForQuery(queryString);
 })
 
 
@@ -76,7 +91,7 @@ function makeArticleRequestForQuery(queryString) {
     },
     url: "http://api.ft.com/content/search/v1?",
     json: {
-      "queryString": 'title:\"' + queryString + '\"', 
+      "queryString": 'title:\"' + queryString + '\"',
       "resultContext": {
         "aspects": ["title", "lifecycle", "location", "summary", "editorial"],
         "sortOrder": "DESC",
@@ -86,24 +101,25 @@ function makeArticleRequestForQuery(queryString) {
     method: 'POST'
   }, function (err, res, body) {
     articles = body["results"]
-    indexCount = articles[0]["indexCount"]
     articlesArray = articles[0]["results"]
 
-    // for (let index = 0; index < indexCount.length; index++) {
-    //   var element = articlesArray[index];
-    //   var MongoClient = require('mongodb').MongoClient;
-    //   var url = "mongodb://localhost:27017/";
-    //   MongoClient.connect(url, function (err, db) {
-    //     if (err) throw err;
-    //     var dbo = db.db("mydb");
-    //     var myobj = element;
-    //     dbo.collection("articles").insertOne(myobj, function (err, res) {
-    //       if (err) throw err;
-    //       console.log("1 document inserted");
-    //       db.close();
-    //     });
-    //   });
-    // }
+    MongoClient.connect(url, function (err, db) {
+      if (err) throw err;
+      var dbo = db.db("mydb");
+      dbo.collection("articles").remove({}, function (err, res) {
+        if (err) throw err;
+        console.log("All documents removed")
+      })
+
+      for (let index = 0; index < 20; index++) {
+        const element = articles[0]["results"][index];
+        dbo.collection("articles").insertOne(element, function (err, res) {
+          if (err) throw err;
+          console.log("1 document inserted");
+          db.close();
+        });
+      }
+    });
 
     console.log(articles);
     console.log(articles[0]["indexCount"])

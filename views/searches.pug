@@ -5,11 +5,12 @@ block layout-content
     head
     title Articles
 
-    h1(style='color:blue;') Here are your
-        script(type="text/javascript").
-            window.articles["indexCount"]
-        h1(style='color:blue;') articles
-
+    h1(style='color:blue;') Here are your articles
+    table 
+        each article, index in articlesArray
+            tr#article_title
+                td #{article["title"]["title"]}
+            
 
 
 
