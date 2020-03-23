@@ -3,15 +3,15 @@ extends layout.pug
 block layout-content
 
     head
-    title FT Headline Finder
+    title Articles
 
-    h1(style='color:blue;') Search for headlines down below!
-    p Try searching for anything you like
+    h1(style='color:blue;') Here are your
+        script(type="text/javascript").
+            window.articles["indexCount"]
+        h1(style='color:blue;') articles
 
-    form(action='/search' method='post')
-        label(for='headline_search_box') Search headline: 
-        input#headline_search_box(type='text' name='queryString' value='Enter headline here')
-        input(type='submit' value='OK')
+
+
 
     //- form(action='/search/process' method='post')
     //- input.form-control.web-search-box(type='text' placeholder='search' name='keyword' value='')
