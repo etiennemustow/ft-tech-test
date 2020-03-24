@@ -1,7 +1,6 @@
 var express = require("express");
 var app = express();
 var path = require("path");
-var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 
@@ -44,9 +43,8 @@ app.get('/search', function (req, res, next) {
 app.post('/search/', function (req, res, next) {
   var queryString;
   queryString = req.body.queryString;
-  res.redirect('/search');
-  console.log("STRING" + queryString);
   makeArticleRequestForQuery(queryString);
+  res.redirect('/search');
 })
 
 
@@ -55,33 +53,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 5000, function () {
   console.log("Example app listening on port 3000!");
 });
 
-module.exports = router;
 
 
-// var request = require('request');
-
-// //set url
-// var url = "http://api.ft.com/content/search/v1?";
-
-// //set header
-// var headers = {
-//   'Content-Type': 'application/javascript',
-//   'x-api-key': process.env.FT_API_KEY,
-// };
-
-// //set form data
-// var form = {queryString: queryString};
-
-// //set request parameter
-// request.post({headers: headers, url: url, form: form, method: 'POST'}, function (e, r, body) {
-
-//     var bodyValues = JSON.parse(body);
-//     res.send(bodyValues);
-// });
 
 function makeArticleRequestForQuery(queryString) {
   var request = require('request');
@@ -121,7 +98,6 @@ function makeArticleRequestForQuery(queryString) {
         });
       }
     });
-
     console.log(articles);
     console.log(articles[0]["indexCount"])
     console.log(articles[0]["results"].length)

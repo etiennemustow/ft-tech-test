@@ -20,7 +20,8 @@ Provide a search box for users to search for headlines containing specific words
 ## To test
 - N/A yet
 
-## Points I addressed
+# Points I addressed
+
 
 ### Be responsive
 I included the `<meta>` viewport element and set the width to device-width and initial scale to 1 so that the size of the page adjusts well depending on whichever device is using the app.
@@ -38,7 +39,10 @@ Included Origami components from the CSS and JS scripts links in my HTML
 ### Have a similar look and feel as ft.com - https://www.ft.com/
 Should use similar Origami components and so have same colour scheme and typography
 
-## Other points to make
+# Other points to make
+
 I normally wouldn't leave my .env file in git commits but for the purpose of ease and the fact that repo is private, I left the .env file with the API key in it.
 
-I couldn't figure out why not all the documents I found were being saved and would have liked to spend more time figuring out how to show most, if not all the articles being found by the API call. If I figured this out, I could have implemented pagination.
+There is a bug whereby if you search once and press back then try another search, the previous search results remain. A work-around is to go back and search again or refresh the page. I would have liked to fix this bug,
+
+I also couldn't figure out why not all the documents I found were being saved and would have liked to spend more time figuring out how to show most, if not all the articles being found by the API call. If I figured this out, I could have implemented pagination.
