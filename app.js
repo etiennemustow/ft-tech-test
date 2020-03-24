@@ -5,9 +5,6 @@ var path = require("path");
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 var bodyParser = require("body-parser");
-// var mongoose = require("mongoose");
-
-// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818.herokuapp.com/');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -34,7 +31,11 @@ app.get('/search', function (req, res, next) {
   var resultsArray = []
   MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818.herokuapp.com/' || url, function (err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    if(process.env.MONGODB_URI) {
+      var dbo = db.db("heroku_84vj5m9j");  
+    } else {
+      var dbo = db.db("mydb");
+    }
     dbo.collection("articles").find({}).toArray(function (err, result) {
       if (err) {
         throw err;
@@ -83,15 +84,15 @@ function makeArticleRequestForQuery(queryString) {
 
     MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818.herokuapp.com/' || url, function (err, db) {
       if (err) throw err;
-      var dbo = db.db("mydb");
-      if(dbo.collection("articles")){
-        dbo.collection("articles").deleteMany({}, function (err, res) {
-          if (err) throw err;
-          console.log("All documents removed")
-        })
+      if(process.env.MONGODB_URI) {
+        var dbo = db.db("heroku_84vj5m9j");  
       } else {
-        console.log("No documents to remove")
+        var dbo = db.db("mydb");
       }
+      dbo.collection("articles").deleteMany({}, function (err, res) {
+        if (err) throw err;
+        console.log("All documents removed")
+      })
 
       for (let index = 0; index < 40; index++) {
         const element = articles[0]["results"][index];
