@@ -5,20 +5,18 @@
 Build a server-rendered site that displays an article from The Financial Times. You may use our Developer APIs to achieve this.
 Provide a search box for users to search for headlines containing specific words (i.e. searching for "brexit" should return a list of brexit-related headlines).
 
-## Setting up the project
+## Running the app
+
+- Visit: http://intense-shore-82818.herokuapp.com/
+
+*OR* 
 
 - Run `git clone` this repo
 - Run `cd ft-tech-test` to change into the correct directory
 - Run `npm install` to install all packages
-
-## Running the app
-
 - Run `npm start` to change into this project
-- On a browser enter `localhost:3000`
+- On a browser enter `localhost:50000`
 
-
-## To test
-- N/A yet
 
 # Points I addressed
 
@@ -38,11 +36,13 @@ There is a placeholder field in the search box in `index.pug` AND a label so tha
 Included Origami components from the CSS and JS scripts links in my HTML
 ### Have a similar look and feel as ft.com - https://www.ft.com/
 Should use similar Origami components and so have same colour scheme and typography
+### Deploued on Heroku
+After configuring the MongoDB, I was able to have an active version of the app on Heroku.
 
 # Other points to make
 
-I normally wouldn't leave my .env file in git commits but for the purpose of ease and the fact that repo is private, I left the .env file with the API key in it.
+I normally would test but to get this tech test out to you quicker (and it being optional), I chose to forsake the few tests I'd write. Can update the repo with tests if you'd like to see how I test too.
 
-There is a bug whereby if you search once and press back then try another search, the previous search results remain. A work-around is to go back and search again or refresh the page. I would have liked to fix this bug,
+There is a bug whereby if you search once and press back then try another search, the previous search results remain. A work-around is to refresh the page. I would have liked to fix this bug with more time.
 
 I also couldn't figure out why not all the documents I found were being saved and would have liked to spend more time figuring out how to show most, if not all the articles being found by the API call. If I figured this out, I could have implemented pagination.
