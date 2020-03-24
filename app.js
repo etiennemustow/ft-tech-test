@@ -102,16 +102,17 @@ function makeArticleRequestForQuery(queryString) {
   }, function (err, res, body) {
     articles = body["results"]
     articlesArray = articles[0]["results"]
+    numberOfArticles = articles[0]["indexCount"]
 
     MongoClient.connect(url, function (err, db) {
       if (err) throw err;
       var dbo = db.db("mydb");
-      dbo.collection("articles").remove({}, function (err, res) {
+      dbo.collection("articles").deleteMany({}, function (err, res) {
         if (err) throw err;
         console.log("All documents removed")
       })
 
-      for (let index = 0; index < 20; index++) {
+      for (let index = 0; index < 40; index++) {
         const element = articles[0]["results"][index];
         dbo.collection("articles").insertOne(element, function (err, res) {
           if (err) throw err;
@@ -123,7 +124,7 @@ function makeArticleRequestForQuery(queryString) {
 
     console.log(articles);
     console.log(articles[0]["indexCount"])
-    console.log(articles[0]["results"][0])
+    console.log(articles[0]["results"].length)
     console.log(articles[0]["results"][1])
   });
 }

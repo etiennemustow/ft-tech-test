@@ -13,7 +13,7 @@ Provide a search box for users to search for headlines containing specific words
 
 ## Running the app
 
-- Run `npm run-script launch` to change into this project
+- Run `npm start` to change into this project
 - On a browser enter `localhost:3000`
 
 
@@ -25,6 +25,12 @@ Provide a search box for users to search for headlines containing specific words
 ### Be responsive
 I included the `<meta>` viewport element and set the width to device-width and initial scale to 1 so that the size of the page adjusts well depending on whichever device is using the app.
 
+### Be accessible 
+The links in the searches are underlined, hyperlinks which are easier to see and interact with.
+If you press tab, there is a focus indicator on the searches in the form of a box.
+There is a placeholder field in the search box in `index.pug` AND a label so that a user with a screenreader can be told what to search for.
+
+
 ### Built using Javascript and Node.JS
 ### Not be reliant of client-side frameworks like Angular or React 
 ### Uses Origami Components
@@ -32,3 +38,7 @@ Included Origami components from the CSS and JS scripts links in my HTML
 ### Have a similar look and feel as ft.com - https://www.ft.com/
 Should use similar Origami components and so have same colour scheme and typography
 
+## Other points to make
+I normally wouldn't leave my .env file in git commits but for the purpose of ease and the fact that repo is private, I left the .env file with the API key in it.
+
+I couldn't figure out why not all the documents I found were being saved and would have liked to spend more time figuring out how to show most, if not all the articles being found by the API call. If I figured this out, I could have implemented pagination.
