@@ -5,9 +5,9 @@ var path = require("path");
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
+// var mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818');
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818.herokuapp.com/');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -32,7 +32,7 @@ app.get("/", function (req, res) {
 
 app.get('/search', function (req, res, next) {
   var resultsArray = []
-  MongoClient.connect(url, function (err, db) {
+  MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818.herokuapp.com/' || url, function (err, db) {
     if (err) throw err;
     var dbo = db.db("mydb");
     dbo.collection("articles").find({}).toArray(function (err, result) {
