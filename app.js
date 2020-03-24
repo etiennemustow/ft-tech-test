@@ -81,7 +81,7 @@ function makeArticleRequestForQuery(queryString) {
     articlesArray = articles[0]["results"]
     numberOfArticles = articles[0]["indexCount"]
 
-    MongoClient.connect(url, function (err, db) {
+    MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818.herokuapp.com/' || url, function (err, db) {
       if (err) throw err;
       var dbo = db.db("mydb");
       dbo.collection("articles").deleteMany({}, function (err, res) {
