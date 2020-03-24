@@ -84,10 +84,14 @@ function makeArticleRequestForQuery(queryString) {
     MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost/intense-shore-82818.herokuapp.com/' || url, function (err, db) {
       if (err) throw err;
       var dbo = db.db("mydb");
-      dbo.collection("articles").deleteMany({}, function (err, res) {
-        if (err) throw err;
-        console.log("All documents removed")
-      })
+      if(dbo.collection("articles")){
+        dbo.collection("articles").deleteMany({}, function (err, res) {
+          if (err) throw err;
+          console.log("All documents removed")
+        })
+      } else {
+        console.log("No documents to remove")
+      }
 
       for (let index = 0; index < 40; index++) {
         const element = articles[0]["results"][index];
